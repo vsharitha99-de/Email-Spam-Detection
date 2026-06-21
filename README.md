@@ -1,106 +1,104 @@
-# Spam Email/SMS Classifier
+# 📧 Email Spam Detection System
 
-A text classifier that learns to tell spam from legitimate messages (ham), built with
-scikit-learn and served through a Streamlit web app.
+A Machine Learning-based Email/SMS Spam Classifier that predicts whether a message is **Spam** or **Not Spam (Ham)** using Natural Language Processing (NLP) techniques and a trained classification model. The application is deployed using Streamlit for real-time predictions.
 
-## What's in here
+## 🚀 Features
 
-```
-spam-classifier/
-├── data/
-│   └── sample_spam.csv      # placeholder dataset (see "Get the real dataset" below)
-├── src/
-│   ├── preprocess.py        # text cleaning (lowercase, strip punctuation/numbers, stop words)
-│   ├── explore.py           # quick EDA: class balance, message length, top words
-│   └── train.py             # trains Naive Bayes + Logistic Regression, evaluates, saves best model
+* Classifies messages as Spam or Not Spam
+* Text preprocessing and cleaning
+* TF-IDF Vectorization for feature extraction
+* Machine Learning model for prediction
+* Interactive Streamlit web application
+* Real-time message analysis
+
+## 🛠️ Technologies Used
+
+* Python
+* Pandas
+* NumPy
+* Scikit-learn
+* NLTK
+* Streamlit
+* Pickle
+
+## 📂 Project Structure
+
+Email-Spam-Detection/
+
 ├── app/
-│   └── app.py                # Streamlit app for live predictions
-├── models/                   # created after training: saved vectorizer + model + metrics
+
+│ └── app.py
+
+├── data/
+
+│ └── spam.csv
+
+├── models/
+
+│ ├── model.pkl
+
+│ └── vectorizer.pkl
+
+├── src/
+
+│ ├── preprocess.py
+
+│ └── train.py
+
+├── requirements.txt
+
 └── README.md
-```
 
-## ⚠️ Get the real dataset first
+## 📊 Machine Learning Workflow
 
-This repo ships with `data/sample_spam.csv`, a small 115-message placeholder set
-I wrote by hand so the code runs out of the box. **Swap it for the real dataset**
-before you submit anything:
+1. Data Collection
+2. Data Cleaning & Preprocessing
+3. Text Vectorization using TF-IDF
+4. Model Training
+5. Model Evaluation
+6. Real-Time Prediction using Streamlit
 
-1. Go to the [UCI SMS Spam Collection](https://archive.ics.uci.edu/dataset/228/sms+spam+collection)
-   or [Kaggle's mirror](https://www.kaggle.com/datasets/uciml/sms-spam-collection-dataset)
-2. Download it, you'll get a file usually named `spam.csv` with columns `v1` (label) and `v2` (text)
-3. Drop it into `data/spam.csv`
-4. `train.py` already handles both the `v1/v2` raw format and a clean `label/text` format,
-   so no manual renaming needed
+## ▶️ Installation
 
-The real dataset has 5,572 messages (4,825 ham / 747 spam). My sample has 115. Expect your
-real numbers to differ from what's printed below, and probably be more meaningful since
-115 hand-written examples is not a real test set.
+Clone the repository:
 
-## Setup
+git clone https://github.com/vsharitha99-de/Email-Spam-Detection.git
 
-```bash
-pip install pandas scikit-learn streamlit
-```
+Navigate to the project folder:
 
-## How to run
+cd Email-Spam-Detection
 
-**1. (Optional) Explore the data first**
+Install dependencies:
 
-```bash
-cd src
-python explore.py --data ../data/spam.csv
-```
+pip install -r requirements.txt
 
-Prints class balance, message length stats by class, and the most common words in
-spam vs. ham — useful for sanity-checking before you train anything.
+Run the Streamlit application:
 
-**2. Train and evaluate**
+streamlit run app.py
 
-```bash
-python src/train.py --data data/spam.csv
-```
+## 📈 Model Performance
 
-This will:
-- Load and clean the text
-- Split 80/20 train/test (stratified, so the spam/ham ratio is preserved in both)
-- Vectorize with TF-IDF (max 5,000 features)
-- Train both Naive Bayes and Logistic Regression
-- Print Accuracy, Precision, Recall, and F1 for both
-- Save whichever model scores higher on F1, plus the vectorizer, into `models/`
+The model is trained on SMS Spam Collection Dataset and evaluated using standard classification metrics:
 
-**3. Run the app**
+* Accuracy
+* Precision
+* Recall
+* F1-Score
 
-```bash
-streamlit run app/app.py
-```
+## 📸 Application Preview
 
-Opens at `http://localhost:8501`. Paste a message, hit "Check Message," get a
-Spam / Not Spam verdict with a confidence score.
+Add screenshots of your Streamlit application here.
 
-## Design notes
+## 🎯 Future Improvements
 
-- **Why TF-IDF over raw counts**: TF-IDF down-weights words that appear in almost
-  every message ("the", "to") relative to words that are distinctive of one class,
-  which tends to help linear models like Logistic Regression and gives Naive Bayes
-  cleaner signal too.
-- **Why compare two models**: Naive Bayes is the textbook baseline for text
-  classification and is fast, but Logistic Regression often edges it out once you
-  have TF-IDF features. Comparing both (instead of assuming) is the point.
-- **Precision vs. Recall tradeoff**: for a spam filter, a false positive (real email
-  marked as spam) is usually worse than a false negative (spam that slips through).
-  Precision on the "spam" class matters more than Recall in most real deployments.
-  Worth keeping in mind if you tune the decision threshold later.
-- **Same cleaning function used at training and inference time** (`preprocess.py`
-  is imported by both `train.py` and `app.py`). This avoids train/serve skew, a
-  common real-world bug where the model is trained on differently-cleaned text
-  than what it sees in production.
+* Deep Learning based classification
+* Email attachment analysis
+* Multi-language spam detection
+* Model deployment on cloud platforms
 
-## Known limitations
+## 👩‍💻 Author
 
-- The stop word list is a hand-built ~150 word list, not nltk's. This avoids an
-  extra dependency/download but is less exhaustive. Swap in
-  `from nltk.corpus import stopwords; stopwords.words('english')` if you want.
-- SMS messages are short (avg ~15 words). This pipeline will work on full-length
-  emails too, but emails have more structure (headers, HTML, signatures) that
-  this simple approach ignores. Treat this as a message classifier, not a
-  full email-parsing system.
+Haritha V
+
+BCA Student | Python Developer | Data Analytics & Machine Learning Enthusiast
+
