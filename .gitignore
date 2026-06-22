@@ -1,0 +1,13 @@
+__pycache__/
+*.pyc
+.venv/
+venv/
+.DS_Store
+
+# Trained model artifacts - regenerate by running train.py
+# Comment these out if you want to commit a trained model for reviewers
+models/*.pkl
+
+# Real dataset (large, and Kaggle/UCI's license terms vary) -
+# download it yourself per the README instead of committing it
+data/spam.csv
